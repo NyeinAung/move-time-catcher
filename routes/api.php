@@ -20,8 +20,20 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'todo-lists'], function () {
     Route::get('/', 'API\TodoListsController@index');
     Route::get('/detail/{id}', 'API\TodoListsController@detail');
-    Route::get('/create', 'API\TodoListsController@create');
     Route::post('/store', 'API\TodoListsController@store');
     Route::post('/update/{id}', 'API\TodoListsController@update');
     Route::post('/delete/{id}', 'API\TodoListsController@delete');
+});
+
+Route::group(['prefix' => 'bus-schedule'], function () {
+    Route::get('/', 'API\BusScheduleController@index');
+    Route::get('/detail/{id}', 'API\BusScheduleController@detail');
+    Route::post('/store', 'API\BusScheduleController@store');
+    Route::post('/update/{id}', 'API\BusScheduleController@update');
+    Route::post('/delete/{id}', 'API\BusScheduleController@delete');
+});
+
+Route::group(['prefix' => 'movie-time'], function () {
+    Route::get('/', 'API\DecideMovieTimeController@index');
+    Route::get('/check', 'API\DecideMovieTimeController@checkMovieTime');
 });

@@ -69879,6 +69879,800 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Components/BusSchedule/Create.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/Components/BusSchedule/Create.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var BusScheduleListCreate = /*#__PURE__*/function (_Component) {
+  _inherits(BusScheduleListCreate, _Component);
+
+  var _super = _createSuper(BusScheduleListCreate);
+
+  function BusScheduleListCreate(props) {
+    var _this;
+
+    _classCallCheck(this, BusScheduleListCreate);
+
+    _this = _super.call(this, props);
+    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.state = {
+      bus_time_hour: "hr",
+      bus_time_mins: "mi",
+      errors: {},
+      fireRedirect: false
+    };
+    return _this;
+  }
+
+  _createClass(BusScheduleListCreate, [{
+    key: "onChange",
+    value: function onChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: "handleValidation",
+    value: function handleValidation() {
+      var errors = {};
+      var formIsValid = true; //bus time hour
+
+      if (this.state.bus_time_hour == "hr") {
+        errors["bus_time_hour"] = "required!";
+        formIsValid = false;
+      }
+
+      if (this.state.bus_time_mins == "mi") {
+        errors["bus_time_mins"] = "required!";
+        formIsValid = false;
+      }
+
+      this.setState({
+        errors: errors
+      });
+      return formIsValid;
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+
+      if (this.handleValidation()) {
+        var BusScheduleListData = this.state;
+        axios.post('/bus-schedule/store', BusScheduleListData).then(function (response) {
+          if (response.data.status === 200) {
+            _this2.setState({
+              fireRedirect: true
+            });
+          } else {// console.log(response);
+          }
+        })["catch"](function (error) {// console.log(error);
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.fireRedirect) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: '/bus-schedule'
+        });
+      }
+
+      var hours = [];
+      var mins = [];
+
+      for (var i = 0; i < 24; i++) {
+        hours.push(i < 10 ? "0" + i : i);
+      }
+
+      for (var _i = 0; _i < 60; _i++) {
+        mins.push(_i < 10 ? "0" + _i : _i);
+      }
+
+      hours.unshift("hr");
+      mins.unshift("mi");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header"
+      }, "Bus Schedule"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row block-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-lg-12 d-flex"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "col-sm-3 col-form-label"
+      }, "Bus Time ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-9"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pr-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "bus_time_hour",
+        onChange: this.onChange
+      }, hours.map(function (hour) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: hour,
+          value: hour
+        }, hour);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, this.state.errors["bus_time_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pr-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "bus_time_mins",
+        onChange: this.onChange
+      }, mins.map(function (min) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: min,
+          value: min
+        }, min);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, this.state.errors["bus_time_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pt-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group float-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "/bus-schedule",
+        className: "btn btn-danger"
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary ml-2"
+      }, "Save")))))))));
+    }
+  }]);
+
+  return BusScheduleListCreate;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (BusScheduleListCreate);
+
+/***/ }),
+
+/***/ "./resources/js/Components/BusSchedule/Edit.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/Components/BusSchedule/Edit.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var BusScheduleListEdit = /*#__PURE__*/function (_Component) {
+  _inherits(BusScheduleListEdit, _Component);
+
+  var _super = _createSuper(BusScheduleListEdit);
+
+  function BusScheduleListEdit(props) {
+    var _this;
+
+    _classCallCheck(this, BusScheduleListEdit);
+
+    _this = _super.call(this, props);
+    var id = '';
+
+    if (props.match.params.id) {
+      id = props.match.params.id;
+    }
+
+    _this.state = {
+      id: id,
+      bus_time_hour: "hr",
+      bus_time_mins: "mi",
+      errors: {},
+      fireRedirect: false
+    };
+    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  } // lifecycle mehtod
+
+
+  _createClass(BusScheduleListEdit, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getDetail();
+    } // get bus schedule detail
+
+  }, {
+    key: "getDetail",
+    value: function getDetail() {
+      var _this2 = this;
+
+      axios.get('/bus-schedule/detail/' + this.state.id).then(function (response) {
+        if (response.data.status === 200) {
+          if (response.data.data) {
+            _this2.setState({
+              bus_time_hour: response.data.data.bus_time[0],
+              bus_time_mins: response.data.data.bus_time[1],
+              data: true
+            });
+          } else {
+            _this2.setState({
+              Data: false
+            });
+          }
+        }
+      })["catch"](function (error) {});
+    }
+  }, {
+    key: "onChange",
+    value: function onChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: "handleValidation",
+    value: function handleValidation() {
+      var errors = {};
+      var formIsValid = true; //bus time hour
+
+      if (this.state.bus_time_hour == "hr") {
+        errors["bus_time_hour"] = "required!";
+        formIsValid = false;
+      }
+
+      if (this.state.bus_time_mins == "mi") {
+        errors["bus_time_mins"] = "required!";
+        formIsValid = false;
+      }
+
+      this.setState({
+        errors: errors
+      });
+      return formIsValid;
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+
+      if (this.handleValidation()) {
+        var BusScheduleListData = this.state;
+        axios.post("/bus-schedule/update/".concat(this.state.id), {
+          bus_time_hour: this.state.bus_time_hour,
+          bus_time_mins: this.state.bus_time_mins
+        }).then(function (response) {
+          if (response.data.status === 200) {
+            _this3.setState({
+              fireRedirect: true
+            });
+          } else {// console.log(response);
+          }
+        })["catch"](function (error) {// console.log(error);
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.fireRedirect) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: '/bus-schedule'
+        });
+      }
+
+      var hours = [];
+      var mins = [];
+
+      for (var i = 0; i < 24; i++) {
+        hours.push(i < 10 ? "0" + i : i);
+      }
+
+      for (var _i = 0; _i < 60; _i++) {
+        mins.push(_i < 10 ? "0" + _i : _i);
+      }
+
+      hours.unshift("hr");
+      mins.unshift("mi");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header"
+      }, "Bus Schedule"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row block-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-lg-12 d-flex"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "col-sm-3 col-form-label"
+      }, "Bus Time ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, "*")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-9"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pr-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "bus_time_hour",
+        value: this.state.bus_time_hour,
+        onChange: this.onChange
+      }, hours.map(function (hour) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: hour,
+          value: hour
+        }, hour);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, this.state.errors["bus_time_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pr-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "bus_time_mins",
+        value: this.state.bus_time_mins,
+        onChange: this.onChange
+      }, mins.map(function (min) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: min,
+          value: min
+        }, min);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "text-danger"
+      }, this.state.errors["bus_time_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "pt-2 float-left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group float-right"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "/bus-schedule",
+        className: "btn btn-danger"
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary ml-2"
+      }, "Save")))))))));
+    }
+  }]);
+
+  return BusScheduleListEdit;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (BusScheduleListEdit);
+
+/***/ }),
+
+/***/ "./resources/js/Components/BusSchedule/Index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/Components/BusSchedule/Index.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _List__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./List */ "./resources/js/Components/BusSchedule/List.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var BusScheduleListIndex = /*#__PURE__*/function (_Component) {
+  _inherits(BusScheduleListIndex, _Component);
+
+  var _super = _createSuper(BusScheduleListIndex);
+
+  function BusScheduleListIndex(props) {
+    var _this;
+
+    _classCallCheck(this, BusScheduleListIndex);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      bus_schedule_list: [],
+      dataLoaded: false,
+      error: false,
+      Data: false
+    };
+    return _this;
+  }
+
+  _createClass(BusScheduleListIndex, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios.get('/bus-schedule').then(function (response) {
+        if (response.data.data.length === 0) {
+          _this2.setState({
+            bus_schedule_list: [],
+            dataLoaded: true,
+            error: false,
+            Data: false
+          });
+        } else {
+          _this2.setState({
+            bus_schedule_list: response.data.data,
+            dataLoaded: true,
+            error: false,
+            Data: true
+          });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "deleteBusScheduleHandler",
+    value: function deleteBusScheduleHandler(key, id) {
+      var _this3 = this;
+
+      axios.post('/bus-schedule/delete/' + id).then(function (response) {
+        if (response.data.status === 200) {
+          var bus_schedule_list = _this3.state.bus_schedule_list;
+          bus_schedule_list.splice(key, 1);
+
+          if (bus_schedule_list.length === 0) {
+            _this3.setState({
+              bus_schedule_list: [],
+              dataLoaded: true,
+              error: false,
+              Data: false
+            });
+          } else {
+            _this3.setState({
+              bus_schedule_list: bus_schedule_list,
+              dataLoaded: true,
+              error: false,
+              Data: true
+            });
+          }
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      var BusScheduleListData = null;
+
+      if (this.state.dataLoaded) {
+        if (this.state.Data) {
+          BusScheduleListData = this.state.bus_schedule_list.map(function (bus_schedule, key) {
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_List__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              key: key,
+              "delete": function _delete() {
+                return _this4.deleteBusScheduleHandler(key, bus_schedule.id);
+              },
+              number: key + 1,
+              bus_time: bus_schedule.bus_time,
+              date: bus_schedule.created_at,
+              id: bus_schedule.id
+            });
+          });
+        } else {
+          BusScheduleListData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+            colSpan: "4"
+          }, "No Results!"));
+        }
+      } else {
+        BusScheduleListData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+          colSpan: "4"
+        }, "Loading ..."));
+      }
+
+      var addList;
+
+      if (this.state.bus_schedule_list.length == 0) {
+        addList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "btn btn-secondary",
+          to: "/bus-schedule/create"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "ion-ios-add-circle"
+        }), " Add Bus Schedule");
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row d-flex pt-2 pb-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-xl-12 py-12 px-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "pb-3"
+      }, "Bus Schedule"), addList)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row d-flex"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-xl-12 py-12 px-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "table-responsive"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-striped"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Bus Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, BusScheduleListData)))))));
+    }
+  }]);
+
+  return BusScheduleListIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (BusScheduleListIndex);
+
+/***/ }),
+
+/***/ "./resources/js/Components/BusSchedule/List.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/Components/BusSchedule/List.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+var BusScheduleList = function BusScheduleList(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.bus_time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    className: "btn btn-primary",
+    to: "/bus-schedule/".concat(props.id, "/edit")
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "ion-ios-create"
+  }), " Edit "), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "btn btn-danger",
+    onClick: props["delete"]
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "ion-ios-remove-circle-outline"
+  }), " Delete")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (BusScheduleList);
+
+/***/ }),
+
+/***/ "./resources/js/Components/DecideMovieTime/Index.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/Components/DecideMovieTime/Index.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var DecideMovieTimeIndex = /*#__PURE__*/function (_Component) {
+  _inherits(DecideMovieTimeIndex, _Component);
+
+  var _super = _createSuper(DecideMovieTimeIndex);
+
+  function DecideMovieTimeIndex(props) {
+    var _this;
+
+    _classCallCheck(this, DecideMovieTimeIndex);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      movie_time: "",
+      dataLoaded: false,
+      error: false,
+      Data: false
+    };
+    return _this;
+  }
+
+  _createClass(DecideMovieTimeIndex, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      axios.get('/movie-time').then(function (response) {
+        if (response.data.data.length === 0) {
+          _this2.setState({
+            movie_time: "",
+            dataLoaded: true,
+            error: false,
+            Data: false
+          });
+        } else {
+          _this2.setState({
+            movie_time: response.data.data,
+            dataLoaded: true,
+            error: false,
+            Data: true
+          });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var MovieTimeData = null;
+
+      if (this.state.dataLoaded) {
+        if (this.state.Data) {
+          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.movie_time);
+        } else {
+          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No Results!");
+        }
+      } else {
+        MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Loading ...");
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header"
+      }, "Movie Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row block-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-lg-12 d-flex"
+      }, MovieTimeData))))));
+    }
+  }]);
+
+  return DecideMovieTimeIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (DecideMovieTimeIndex);
+
+/***/ }),
+
 /***/ "./resources/js/Components/Header.js":
 /*!*******************************************!*\
   !*** ./resources/js/Components/Header.js ***!
@@ -69896,6 +70690,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ToDoList_Index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ToDoList/Index */ "./resources/js/Components/ToDoList/Index.js");
 /* harmony import */ var _ToDoList_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ToDoList/Create */ "./resources/js/Components/ToDoList/Create.js");
 /* harmony import */ var _ToDoList_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ToDoList/Edit */ "./resources/js/Components/ToDoList/Edit.js");
+/* harmony import */ var _BusSchedule_Index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./BusSchedule/Index */ "./resources/js/Components/BusSchedule/Index.js");
+/* harmony import */ var _BusSchedule_Create__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./BusSchedule/Create */ "./resources/js/Components/BusSchedule/Create.js");
+/* harmony import */ var _BusSchedule_Edit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./BusSchedule/Edit */ "./resources/js/Components/BusSchedule/Edit.js");
+/* harmony import */ var _DecideMovieTime_Index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./DecideMovieTime/Index */ "./resources/js/Components/DecideMovieTime/Index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -69926,6 +70724,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+
+
 axios__WEBPACK_IMPORTED_MODULE_2___default.a.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 var Header = /*#__PURE__*/function (_Component) {
@@ -69939,11 +70741,34 @@ var Header = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, Header);
 
     _this = _super.call(this, props);
+    _this.state = {
+      movie_time: false
+    };
     _this.logout = _this.logout.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Header, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.checkMovieTime();
+    }
+  }, {
+    key: "checkMovieTime",
+    value: function checkMovieTime() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/movie-time/check').then(function (response) {
+        if (response.data.status === 200) {
+          _this2.setState({
+            movie_time: true
+          });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "logout",
     value: function logout() {
       $("#logout").click();
@@ -69951,6 +70776,23 @@ var Header = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var movie_time_menu = "";
+
+      if (this.state.movie_time) {
+        movie_time_menu = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "nav-item active"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "nav-link",
+          to: "/movie-time"
+        }, "Decide Movie Time"));
+      } else {
+        movie_time_menu = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "nav-item"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          className: "nav-link"
+        }, "Decide Movie Time"));
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "HeaderSection"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
@@ -69975,7 +70817,7 @@ var Header = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "nav-link",
         to: "/bus-schedule"
-      }, "Bus Schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Bus Schedule")), movie_time_menu, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item active"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
@@ -69995,7 +70837,21 @@ var Header = /*#__PURE__*/function (_Component) {
             id: ":id"
           }, props));
         }
-      }))));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        exact: true,
+        path: "/bus-schedule"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BusSchedule_Index__WEBPACK_IMPORTED_MODULE_6__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/bus-schedule/create"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BusSchedule_Create__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/bus-schedule/:id/edit",
+        render: function render(props) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BusSchedule_Edit__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
+            id: ":id"
+          }, props));
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/movie-time"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DecideMovieTime_Index__WEBPACK_IMPORTED_MODULE_9__["default"], null)))));
     }
   }]);
 
@@ -70177,7 +71033,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
         className: "col-lg-12 d-flex"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit,
-        className: "p-5 col-md-12"
+        className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70191,7 +71047,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "alarm_hour",
@@ -70204,7 +71060,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["alarm_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "alarm_mins",
@@ -70217,7 +71073,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["alarm_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "pt-2 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70231,7 +71087,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "time_to_teeth_hour",
@@ -70244,7 +71100,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["time_to_teeth_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "time_to_teeth_mins",
@@ -70257,7 +71113,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["time_to_teeth_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70271,7 +71127,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "breakfast_time_hour",
@@ -70284,7 +71140,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["breakfast_time_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "breakfast_time_mins",
@@ -70297,7 +71153,7 @@ var ToDoListCreate = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["breakfast_time_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group float-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -70534,7 +71390,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
         className: "col-lg-12 d-flex"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit,
-        className: "p-5 col-md-12"
+        className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70548,7 +71404,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "alarm_hour",
@@ -70562,7 +71418,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["alarm_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "alarm_mins",
@@ -70576,7 +71432,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["alarm_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "pt-2 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70590,7 +71446,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "time_to_teeth_hour",
@@ -70604,7 +71460,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["time_to_teeth_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "time_to_teeth_mins",
@@ -70618,7 +71474,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["time_to_teeth_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "pt-2 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -70632,7 +71488,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "breakfast_time_hour",
@@ -70646,7 +71502,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["breakfast_time_hour"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-3 float-left"
+        className: "pr-3 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "breakfast_time_mins",
@@ -70660,7 +71516,7 @@ var ToDoListEdit = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-danger"
       }, this.state.errors["breakfast_time_mins"])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 pt-2 float-left"
+        className: "pt-2 float-left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(*24 hour Format)")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group float-right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -70849,7 +71705,7 @@ var ToDoListIndex = /*#__PURE__*/function (_Component) {
         className: "col-xl-12 py-12 px-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "pb-3"
-      }, "Time Schedule Lists"), addList)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Time Schedule"), addList)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row d-flex"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-xl-12 py-12 px-md-12"

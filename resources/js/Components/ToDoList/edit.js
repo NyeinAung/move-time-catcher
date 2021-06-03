@@ -150,13 +150,13 @@ class ToDoListEdit extends Component{
                         <div className="card-body">
                             <div className="row block-12">
                                 <div className="col-lg-12 d-flex">
-                                    <form onSubmit={this.handleSubmit} className="p-5 col-md-12">
+                                    <form onSubmit={this.handleSubmit} className="col-md-12">
                                         <div className="form-group row">
                                             <label className="col-sm-5 col-form-label">Set Alarm Time <span className="text-danger">*</span></label>
                                             <div className="col-sm-7">
                                                 <div className="row">
                                                     <div className="col-12">
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="alarm_hour" value={this.state.alarm_hour} onChange={this.onChange}>
                                                                 {hours.map(hour => (
                                                                     <option key={hour} value={hour}>
@@ -167,7 +167,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["alarm_hour"]}</span>
                                                         </div>
 
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="alarm_mins" value={this.state.alarm_mins} onChange={this.onChange}>
                                                                 {mins.map(min => (
                                                                     <option key={min} value={min}>
@@ -178,7 +178,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["alarm_mins"]}</span>
                                                         </div>
                                                         
-                                                        <div className="col-6 pt-2 float-left">
+                                                        <div className="pt-2 float-left">
                                                             <span>(*24 hour Format)</span>
                                                         </div>
                                                     </div>
@@ -191,7 +191,7 @@ class ToDoListEdit extends Component{
                                             <div className="col-sm-7">
                                                 <div className="row">
                                                     <div className="col-12">
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="time_to_teeth_hour" value={this.state.time_to_teeth_hour} onChange={this.onChange}>
                                                                 {hours.map(hour => (
                                                                     <option key={hour} value={hour}>
@@ -202,7 +202,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["time_to_teeth_hour"]}</span>
                                                         </div>
 
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="time_to_teeth_mins" value={this.state.time_to_teeth_mins} onChange={this.onChange}>
                                                                 {mins.map(min => (
                                                                     <option key={min} value={min}>
@@ -213,7 +213,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["time_to_teeth_mins"]}</span>
                                                         </div>
                                                         
-                                                        <div className="col-6 pt-2 float-left">
+                                                        <div className="pt-2 float-left">
                                                             <span>(*24 hour Format)</span>
                                                         </div>
                                                     </div>
@@ -226,7 +226,7 @@ class ToDoListEdit extends Component{
                                             <div className="col-sm-7">
                                                 <div className="row">
                                                     <div className="col-12">
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="breakfast_time_hour" value={this.state.breakfast_time_hour} onChange={this.onChange}>
                                                                 {hours.map(hour => (
                                                                     <option key={hour} value={hour}>
@@ -237,7 +237,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["breakfast_time_hour"]}</span>
                                                         </div>
 
-                                                        <div className="col-3 float-left">
+                                                        <div className="pr-3 float-left">
                                                             <select className="form-control" name="breakfast_time_mins" value={this.state.breakfast_time_mins} onChange={this.onChange}>
                                                                 {mins.map(min => (
                                                                     <option key={min} value={min}>
@@ -248,7 +248,7 @@ class ToDoListEdit extends Component{
                                                             <span className="text-danger">{this.state.errors["breakfast_time_mins"]}</span>
                                                         </div>
                                                         
-                                                        <div className="col-6 pt-2 float-left">
+                                                        <div className="pt-2 float-left">
                                                             <span>(*24 hour Format)</span>
                                                         </div>
                                                     </div>

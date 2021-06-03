@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
 import { Link } from "react-router-dom";
-import ToDoList from './List';
+import BusScheduleList from './List';
 
-class ToDoListIndex extends Component{
+class BusScheduleListIndex extends Component{
     constructor(props){
         super(props);
         this.state = {
-            todolists: [],
+            bus_schedule_list: [],
             dataLoaded: false,
             error: false,
             Data: false
@@ -14,26 +14,26 @@ class ToDoListIndex extends Component{
     };
 
     componentDidMount() {
-        axios.get('/todo-lists').then((response) => {
+        axios.get('/bus-schedule').then((response) => {
             if(response.data.data.length === 0){
-                this.setState({ todolists: [], dataLoaded: true ,error : false,Data : false});
+                this.setState({ bus_schedule_list: [], dataLoaded: true ,error : false,Data : false});
             }else{
-                this.setState({ todolists: response.data.data, dataLoaded: true , error : false, Data : true});
+                this.setState({ bus_schedule_list: response.data.data, dataLoaded: true , error : false, Data : true});
             }
         }).catch(function(error) {
             console.log(error);
         });
     };
 
-    deleteToDoListHandler(key,id){
-        axios.post('/todo-lists/delete/'+id).then((response) => {
+    deleteBusScheduleHandler(key,id){
+        axios.post('/bus-schedule/delete/'+id).then((response) => {
           if(response.data.status === 200){
-              const todolists = this.state.todolists;
-              todolists.splice(key, 1);
-              if(todolists.length === 0){
-                  this.setState({ todolists: [], dataLoaded: true ,error : false,Data : false});
+              const bus_schedule_list = this.state.bus_schedule_list;
+              bus_schedule_list.splice(key, 1);
+              if(bus_schedule_list.length === 0){
+                  this.setState({ bus_schedule_list: [], dataLoaded: true ,error : false,Data : false});
               }else{
-                  this.setState({ todolists: todolists, dataLoaded: true ,error : false,Data : true});
+                  this.setState({ bus_schedule_list: bus_schedule_list, dataLoaded: true ,error : false,Data : true});
               }
           }
         }).catch(function(error) {
@@ -42,33 +42,31 @@ class ToDoListIndex extends Component{
     }
 
     render(){
-        let ToDoListData=null;
+        let BusScheduleListData=null;
         if(this.state.dataLoaded){
             if(this.state.Data){
-                ToDoListData = this.state.todolists.map((todolist,key) =>
-                    <ToDoList
+                BusScheduleListData = this.state.bus_schedule_list.map((bus_schedule,key) =>
+                    <BusScheduleList
                         key={key}
-                        delete={() => this.deleteToDoListHandler(key,todolist.id)}
+                        delete={() => this.deleteBusScheduleHandler(key,bus_schedule.id)}
                         number={key+1}
-                        alarm={todolist.alarm}
-                        time_to_teeth={todolist.time_to_teeth}
-                        breakfast_time={todolist.breakfast_time}
-                        date={todolist.created_at}
-                        id={todolist.id}
+                        bus_time={bus_schedule.bus_time}
+                        date={bus_schedule.created_at}
+                        id={bus_schedule.id}
                     />
                 );
             }
             else{
-                ToDoListData = <tr><td colSpan="4">No Results!</td></tr>;
+                BusScheduleListData = <tr><td colSpan="4">No Results!</td></tr>;
             }
         }else{
-            ToDoListData = <tr><td colSpan="4">Loading ...</td></tr>;
+            BusScheduleListData = <tr><td colSpan="4">Loading ...</td></tr>;
         }
 
         let addList;
-        if(this.state.todolists.length==0) {
-            addList = <Link className="btn btn-secondary" to={`/todo-lists/create`}>
-                    <span className="ion-ios-add-circle"/> Add Time Schedule</Link>
+        if(this.state.bus_schedule_list.length==0) {
+            addList = <Link className="btn btn-secondary" to={`/bus-schedule/create`}>
+                    <span className="ion-ios-add-circle"/> Add Bus Schedule</Link>
         }
 
         return(
@@ -76,7 +74,7 @@ class ToDoListIndex extends Component{
                 <div className="col-md-10">
                     <div className="row d-flex pt-2 pb-2">
                         <div className="col-xl-12 py-12 px-md-12">
-                            <h3 className="pb-3">Time Schedule</h3>
+                            <h3 className="pb-3">Bus Schedule</h3>
                             {addList}
                         </div>
                     </div>
@@ -86,14 +84,12 @@ class ToDoListIndex extends Component{
                                 <table className="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Alarm</th>
-                                            <th>Time to Teeth</th>
-                                            <th>Breakfast Time</th>
+                                            <th>Bus Time</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {ToDoListData}
+                                        {BusScheduleListData}
                                     </tbody>
                                 </table>
                             </div>
@@ -105,4 +101,4 @@ class ToDoListIndex extends Component{
     }
 };
 
-export default ToDoListIndex;
+export default BusScheduleListIndex;
