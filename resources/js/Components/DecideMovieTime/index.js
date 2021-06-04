@@ -28,10 +28,10 @@ class DecideMovieTimeIndex extends Component{
         let MovieTimeData=null;
         if(this.state.dataLoaded){
             if(this.state.Data){
-                MovieTimeData = <h3>{this.state.movie_time}</h3>
+                MovieTimeData = <h3>You can catch the time at {this.state.movie_time}</h3>
             }
             else {
-                MovieTimeData = <h3>No Results!</h3>;
+                MovieTimeData = <h3>No Movie Time Available!</h3>;
             }
 
         } else{

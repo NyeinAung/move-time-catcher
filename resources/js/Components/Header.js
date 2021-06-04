@@ -22,6 +22,12 @@ class Header extends Component{
         }
 
         this.logout = this.logout.bind(this)
+
+        var rtm = this;
+        setInterval(function(){
+            rtm.checkMovieTime();
+            rtm.render();
+        }, 5000);
     };
 
     componentDidMount() {
@@ -32,6 +38,8 @@ class Header extends Component{
         axios.get('/movie-time/check').then((response) => {
             if(response.data.status === 200){
                 this.setState({movie_time: true});
+            } else {
+                this.setState({movie_time: false});
             }
         }).catch(function(error) {
             console.log(error);

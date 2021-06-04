@@ -70418,30 +70418,32 @@ var BusScheduleListIndex = /*#__PURE__*/function (_Component) {
     value: function deleteBusScheduleHandler(key, id) {
       var _this3 = this;
 
-      axios.post('/bus-schedule/delete/' + id).then(function (response) {
-        if (response.data.status === 200) {
-          var bus_schedule_list = _this3.state.bus_schedule_list;
-          bus_schedule_list.splice(key, 1);
+      if (window.confirm('Are you sure you want to delete?')) {
+        axios.post('/bus-schedule/delete/' + id).then(function (response) {
+          if (response.data.status === 200) {
+            var bus_schedule_list = _this3.state.bus_schedule_list;
+            bus_schedule_list.splice(key, 1);
 
-          if (bus_schedule_list.length === 0) {
-            _this3.setState({
-              bus_schedule_list: [],
-              dataLoaded: true,
-              error: false,
-              Data: false
-            });
-          } else {
-            _this3.setState({
-              bus_schedule_list: bus_schedule_list,
-              dataLoaded: true,
-              error: false,
-              Data: true
-            });
+            if (bus_schedule_list.length === 0) {
+              _this3.setState({
+                bus_schedule_list: [],
+                dataLoaded: true,
+                error: false,
+                Data: false
+              });
+            } else {
+              _this3.setState({
+                bus_schedule_list: bus_schedule_list,
+                dataLoaded: true,
+                error: false,
+                Data: true
+              });
+            }
           }
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   }, {
     key: "render",
@@ -70639,9 +70641,9 @@ var DecideMovieTimeIndex = /*#__PURE__*/function (_Component) {
 
       if (this.state.dataLoaded) {
         if (this.state.Data) {
-          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.movie_time);
+          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "You can catch the time at ", this.state.movie_time);
         } else {
-          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No Results!");
+          MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No Movie Time Available!");
         }
       } else {
         MovieTimeData = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Loading ...");
@@ -70745,6 +70747,13 @@ var Header = /*#__PURE__*/function (_Component) {
       movie_time: false
     };
     _this.logout = _this.logout.bind(_assertThisInitialized(_this));
+
+    var rtm = _assertThisInitialized(_this);
+
+    setInterval(function () {
+      rtm.checkMovieTime();
+      rtm.render();
+    }, 5000);
     return _this;
   }
 
@@ -70762,6 +70771,10 @@ var Header = /*#__PURE__*/function (_Component) {
         if (response.data.status === 200) {
           _this2.setState({
             movie_time: true
+          });
+        } else {
+          _this2.setState({
+            movie_time: false
           });
         }
       })["catch"](function (error) {
@@ -71625,30 +71638,32 @@ var ToDoListIndex = /*#__PURE__*/function (_Component) {
     value: function deleteToDoListHandler(key, id) {
       var _this3 = this;
 
-      axios.post('/todo-lists/delete/' + id).then(function (response) {
-        if (response.data.status === 200) {
-          var todolists = _this3.state.todolists;
-          todolists.splice(key, 1);
+      if (window.confirm('Are you sure you want to delete?')) {
+        axios.post('/todo-lists/delete/' + id).then(function (response) {
+          if (response.data.status === 200) {
+            var todolists = _this3.state.todolists;
+            todolists.splice(key, 1);
 
-          if (todolists.length === 0) {
-            _this3.setState({
-              todolists: [],
-              dataLoaded: true,
-              error: false,
-              Data: false
-            });
-          } else {
-            _this3.setState({
-              todolists: todolists,
-              dataLoaded: true,
-              error: false,
-              Data: true
-            });
+            if (todolists.length === 0) {
+              _this3.setState({
+                todolists: [],
+                dataLoaded: true,
+                error: false,
+                Data: false
+              });
+            } else {
+              _this3.setState({
+                todolists: todolists,
+                dataLoaded: true,
+                error: false,
+                Data: true
+              });
+            }
           }
-        }
-      })["catch"](function (error) {
-        console.log(error);
-      });
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   }, {
     key: "render",

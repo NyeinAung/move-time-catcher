@@ -26,19 +26,21 @@ class BusScheduleListIndex extends Component{
     };
 
     deleteBusScheduleHandler(key,id){
-        axios.post('/bus-schedule/delete/'+id).then((response) => {
-          if(response.data.status === 200){
-              const bus_schedule_list = this.state.bus_schedule_list;
-              bus_schedule_list.splice(key, 1);
-              if(bus_schedule_list.length === 0){
-                  this.setState({ bus_schedule_list: [], dataLoaded: true ,error : false,Data : false});
-              }else{
-                  this.setState({ bus_schedule_list: bus_schedule_list, dataLoaded: true ,error : false,Data : true});
-              }
-          }
-        }).catch(function(error) {
-            console.log(error);
-        });
+        if (window.confirm('Are you sure you want to delete?')) {
+            axios.post('/bus-schedule/delete/'+id).then((response) => {
+                if(response.data.status === 200){
+                    const bus_schedule_list = this.state.bus_schedule_list;
+                    bus_schedule_list.splice(key, 1);
+                    if(bus_schedule_list.length === 0){
+                        this.setState({ bus_schedule_list: [], dataLoaded: true ,error : false,Data : false});
+                    }else{
+                        this.setState({ bus_schedule_list: bus_schedule_list, dataLoaded: true ,error : false,Data : true});
+                    }
+                }
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
     }
 
     render(){

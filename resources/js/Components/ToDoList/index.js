@@ -26,19 +26,21 @@ class ToDoListIndex extends Component{
     };
 
     deleteToDoListHandler(key,id){
-        axios.post('/todo-lists/delete/'+id).then((response) => {
-          if(response.data.status === 200){
-              const todolists = this.state.todolists;
-              todolists.splice(key, 1);
-              if(todolists.length === 0){
-                  this.setState({ todolists: [], dataLoaded: true ,error : false,Data : false});
-              }else{
-                  this.setState({ todolists: todolists, dataLoaded: true ,error : false,Data : true});
-              }
-          }
-        }).catch(function(error) {
-            console.log(error);
-        });
+        if (window.confirm('Are you sure you want to delete?')) {
+            axios.post('/todo-lists/delete/'+id).then((response) => {
+                if(response.data.status === 200){
+                    const todolists = this.state.todolists;
+                    todolists.splice(key, 1);
+                    if(todolists.length === 0){
+                        this.setState({ todolists: [], dataLoaded: true ,error : false,Data : false});
+                    }else{
+                        this.setState({ todolists: todolists, dataLoaded: true ,error : false,Data : true});
+                    }
+                }
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
     }
 
     render(){
